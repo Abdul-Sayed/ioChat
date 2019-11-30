@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ioChat</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./app.css" />
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+    <script defer src="./app.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <section id="banner">
+        <h1 class="text-center">Welcome to ioChat</h1>
+        <h4 class="text-center mb-20">Enter screename to start chatting</h4>
+      </section>
+
+      <section id="user-form-area" class="col-md-12">
+        <form action="submit" id="user-form">
+          <div class="form-group">
+            <input
+              id="username"
+              placeholder="Enter Username"
+              class="form-control"
+            />
+            <br />
+            <button type="sumbit" id="login" class="btn btn-primary">
+              Login
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section id="message-area" class="container-fluid">
+        <div>
+          <h3>Online Users</h3>
+          <ul class="list-group" id="users"></ul>
+        </div>
+
+        <div class="chat" id="chat"></div>
+
+        <form action="submit" id="message-form">
+          <div class="form-group">
+            <textarea
+              id="message"
+              placeholder="Enter Message"
+              class="form-control"
+            ></textarea>
+            <br />
+            <button type="sumbit" class="btn btn-primary">
+              Send Message
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </body>
+</html>

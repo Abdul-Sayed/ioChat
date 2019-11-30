@@ -1,0 +1,76 @@
+/*   Sockets Code   */
+
+// Establish client websocket connection to served port
+const PORT = "http://localhost:3001/";
+const socket = io.connect(PORT);
+
+
+/*   Variable Declarations */
+// h1 greeting
+const greeting = document.querySelector('#banner');
+// section with login form
+const userFormArea = document.querySelector('#user-form-area');
+// form for username with input and button
+const userForm = document.querySelector('#user-form');
+// input element for username
+const username = document.querySelector('#username');
+// current logged in user
+let currentUser;
+// button for username submit
+const loginButton = document.querySelector('#login');
+// section with ul of online users and message form
+const messageArea = document.querySelector('#message-area');
+// ul of online users
+const users = document.querySelector('#users');
+// form for message submission
+const messageForm = document.querySelector('#message-form');
+// text area for message input
+const message = document.querySelector('#message');
+// div displaying chat messages
+const chat = document.querySelector('#chat'); // chat area
+
+
+/*   Functions */
+
+// Emit form input username to server
+userForm.addEventListener('submit', e => {
+  e.preventDefault();
+  if (username.value) {
+    socket.emit('new user', username.value);
+    userFormArea.style.display = "none";
+    greeting.style.display = "none";
+    messageArea.style.display = "block";
+    currentUser = username.value;
+    username.value = '';
+  }
+})
+
+
+// Emit form input message to server
+messageForm.addEventListener('submit', e => {
+  e.preventDefault();
+  if (message.value) socket.emit('send message', message.value);
+  message.value = ''
+})
+
+
+// Listen for serverside emissions: "username" or "response message", and use data in callback
+// socket.on('name of emitted data', function(data) {...});
+socket.on('username', newUser => {
+  if (currentUser) console.log(`current user is ${currentUser}`)
+  console.log(`${newUser} joined chat`);
+});
+
+// alternate style with text-align right or left if user !== sender
+socket.on('response message', data => {
+  console.log(message);
+  chat.innerHTML += (`<div class="card" style="color:blue">
+  <span><strong>${data.user}: </strong>${data.msg}</span>
+  </div>`)
+});
+
+
+// Listen for serverside emission: "sending users"
+socket.on('sending users', (users) => {
+  console.log(users);
+})

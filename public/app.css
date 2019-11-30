@@ -1,0 +1,33 @@
+  body {
+    margin: 3rem;
+    background-color: skyblue;
+  }
+
+  #banner, #user-form-area {
+    display: block;
+  }
+
+  #message-area {
+    display: none;
+  }
+
+  .container-fluid {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    column-gap: 10px;
+  }
+
+  .chat {
+    margin-bottom: 1rem;
+  }
+
+  .card {
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+    border-radius: 20px;
+    text-align: right;
+  }
+
+  .mb-20 {
+    margin-bottom: 2rem;
+  }
