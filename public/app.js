@@ -67,8 +67,9 @@ socket.on('newUser', newUser => {
 socket.on('response message', data => {
   let side = 'left';
   if (currentUser === data.user) side = 'right';
-  chat.innerHTML += (`<div class="card" style="text-align:${side}">
-  <span><strong>${data.user}: </strong>${data.message}</span>
+  chat.innerHTML += (`
+  <div class="card" style="text-align:${side}">
+  <span><strong class="mr-15">${data.user}:</strong><em class="speech-bubble">${data.message}</em></span>
   </div>`)
 });
 

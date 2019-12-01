@@ -1,33 +1,166 @@
-  body {
-    margin: 3rem;
-    background-color: skyblue;
-  }
+@import url('https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c&display=swap');
+body, html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #00aff0;
+  overflow: scroll;
+  overflow-x: hidden;
+}
 
-  #banner, #user-form-area {
-    display: block;
-  }
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
 
-  #message-area {
-    display: none;
-  }
+.main-container {
+  height: 100%;
+}
 
-  .container-fluid {
-    display: grid;
-    grid-template-columns: 30% 70%;
-    column-gap: 10px;
-  }
+/* User name input styling */
 
-  .chat {
-    margin-bottom: 1rem;
-  }
+#banner {
+  height: 30%;
+  width: 100%;
+  background-image: url("https://cdn.hipwallpaper.com/i/22/54/nGZsgq.png");
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  box-shadow: 0.25rem 0.25rem 0.25rem 0.25rem #e4eef2;
+  color: #555756;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
 
-  .card {
-    margin-bottom: 0.5rem;
-    padding: 1rem;
-    border-radius: 20px;
-    text-align: right;
-  }
+#user-form {
+  text-align: center;
+}
 
-  .mb-20 {
-    margin-bottom: 2rem;
-  }
+.user-input {
+  width: 100%;
+  padding: 1rem;
+  background-color: #e4eef2;
+  text-align: center;
+  border-radius: 0.3rem;
+  box-shadow: 0.5rem 0.5rem 0.5rem 0.5rem #e4eef2;
+  outline: none;
+}
+
+.user-button {
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  outline: none;
+  color: #e4eef2;
+  background-color: #2a92f3;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0.25rem 0.25rem 0.25rem 0.25rem #00aff0;
+  margin-top: 2rem;
+}
+
+.user-button:active {
+  outline: none;
+  transform: translateY(4px);
+}
+
+/* Selectively hiding from DOM */
+
+#banner, #user-form-area {
+  display: block;
+}
+
+#message-area {
+  display: none;
+}
+
+/* Grid Styling */
+
+#message-box {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 100%;
+  column-gap: 10px;
+  text-align: center;
+  color: #555756;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+#userslist {
+  grid-column: 1 / 2;
+  position: absolute;
+  top: 10vh;
+  left: 5vw;
+  padding: 1rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#chat-box {
+  grid-column: 2 / 3;
+  width: 80%;
+  max-height: 100vh;
+  text-align: center;
+}
+
+/* Users list styling */
+
+#userslist h3 {
+  text-decoration: underline;
+}
+
+.list-group {
+  list-style: none;
+}
+
+/* Message area styling */
+
+.chat {
+  height: auto;
+  width: 100%;
+}
+
+.message-form {
+  padding: 1rem;
+}
+
+.message-form textarea {
+  display: block;
+  width: 100%;
+}
+
+.card {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  border-radius: 20px;
+  text-align: right;
+  background-color: #e4eef2;
+}
+
+.mr-15 {
+  margin-right: 1.5rem;
+}
+
+.speech-bubble {
+  position: relative;
+  background: #00ffff;
+  border-radius: .4em;
+  padding: 0.5rem;
+}
+
+.speech-bubble:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 0.75em solid transparent;
+  border-right-color: #00ffff;
+  border-left: 0;
+  border-top: 0;
+  margin-top: -0.375em;
+  margin-left: -0.75em;
+}
