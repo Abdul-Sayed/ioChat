@@ -21,13 +21,13 @@ const loginButton = document.querySelector('#login');
 // section with ul of online users and message form
 const messageArea = document.querySelector('#message-area');
 // ul of online users
-const users = document.querySelector('#users');
+const usersUl = document.querySelector('#users');
 // form for message submission
 const messageForm = document.querySelector('#message-form');
 // text area for message input
 const message = document.querySelector('#message');
 // div displaying chat messages
-const chat = document.querySelector('#chat'); // chat area
+const chat = document.querySelector('#chat');
 
 
 /*   Functions */
@@ -76,4 +76,17 @@ socket.on('response message', data => {
 // Listen for serverside emission: "sending users"
 socket.on('sending users', (users) => {
   console.log(`Participating users: ${users}`);
+  const usersHTML = ""
+  usersUl.innerHTML = users.map(user => usersHTML.concat(`<li>${user}</li>`)).join('');
 })
+
+
+
+/*  Helper Methods */
+Array.prototype.unique = function () {
+  return this.filter(function (value, index, self) {
+    return self.indexOf(value) === index;
+  });
+}
+
+Array.prototype.diff = function (arr2) { return this.filter(x => arr2.includes(x)); }
