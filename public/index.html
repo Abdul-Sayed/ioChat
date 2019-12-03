@@ -25,9 +25,8 @@
       </section>
 
       <section id="user-form-area">
-        <form action="submit" id="user-form">
+        <form id="user-form" autocomplete="off">
           <input id="username" placeholder="Your Handle" class="user-input" />
-          <br />
           <button type="submit" id="login" class="user-button">
             Login
           </button>
@@ -37,15 +36,19 @@
       <section id="message-area">
         <div id="message-box">
           <div id="userslist">
+            <button id="clearBtn" class="user-button">Delete Messages</button>
             <h3>Online Users</h3>
             <ul id="users" class="list-group"></ul>
           </div>
-
           <div id="chat-box">
             <div id="chat" class="chat"></div>
-
-            <form action="submit" id="message-form" class="message-form">
-              <textarea id="message" placeholder="Enter Message"></textarea>
+            <div id="typing"></div>
+            <form id="message-form" class="message-form">
+              <input
+                id="message"
+                placeholder="Enter Message"
+                autocomplete="off"
+              />
               <button type="submit" class="user-button">
                 Send Message
               </button>

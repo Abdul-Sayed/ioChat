@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c&display=swap');
-body, html {
+@import url("https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c&display=swap");
+body,
+html {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -30,7 +31,7 @@ body, html {
   position: relative;
   box-shadow: 0.25rem 0.25rem 0.25rem 0.25rem #e4eef2;
   color: #555756;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-family: "M PLUS Rounded 1c", sans-serif;
 }
 
 #user-form {
@@ -58,6 +59,7 @@ body, html {
   border-radius: 15px;
   box-shadow: 0.25rem 0.25rem 0.25rem 0.25rem #00aff0;
   margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .user-button:active {
@@ -67,7 +69,8 @@ body, html {
 
 /* Selectively hiding from DOM */
 
-#banner, #user-form-area {
+#banner,
+#user-form-area {
   display: block;
 }
 
@@ -84,17 +87,18 @@ body, html {
   column-gap: 10px;
   text-align: center;
   color: #555756;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-family: "M PLUS Rounded 1c", sans-serif;
 }
 
 #userslist {
   grid-column: 1 / 2;
   position: absolute;
-  top: 10vh;
+  top: 2.5vh;
   left: 5vw;
   padding: 1rem;
   margin: 0 auto;
   text-align: center;
+  font-weight: bold;
 }
 
 #chat-box {
@@ -117,26 +121,39 @@ body, html {
 /* Message area styling */
 
 .chat {
-  height: auto;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: auto;
+  max-height: 75vh;
+  margin-top: 1rem;
+  overflow: scroll;
+  overflow-x: hidden;
 }
+
+.card {
+  align-self: flex-end;
+  padding: 1rem;
+  border-radius: 20px;
+  outline: none;
+  background-color: #e4eef2;
+  width: max-content;
+}
+
+/* Message form styling */
 
 .message-form {
   padding: 1rem;
 }
 
-.message-form textarea {
+.message-form input {
   display: block;
   width: 100%;
-}
-
-.card {
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
   padding: 1rem;
-  border-radius: 20px;
-  text-align: right;
-  background-color: #e4eef2;
+  text-align: center;
+  box-shadow: 0.25rem 0.25rem 0.25rem 0.25rem #e4eef2;
+  outline: none;
+  border-style: none;
+  border-color: Transparent;
 }
 
 .mr-15 {
@@ -146,12 +163,12 @@ body, html {
 .speech-bubble {
   position: relative;
   background: #00ffff;
-  border-radius: .4em;
+  border-radius: 0.4em;
   padding: 0.5rem;
 }
 
 .speech-bubble:after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 50%;

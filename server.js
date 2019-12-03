@@ -1,69 +1,107 @@
-// express server
+// Use express server to serve static html file in public folder
 const express = require('express');
 const app = express();
-const socket = require('socket.io');
-
-// Serve static html file in public folder
 app.use(express.static('public'));
 
-const PORT = 3001;
-
+const PORT = process.env.PORT || 4001;
 const server = app.listen(process.env.PORT || PORT, () => {
-  console.log(`Listening on port ${PORT}`)
+  console.log(`Starting Express Server on port ${PORT}`)
 });
 
-
-// Setup socket to use the express server thats running
+// Setup socket to use the express server thats running on PORT
+const socket = require('socket.io');
 const io = socket(server);
 
-const users = [];
 const connections = [];
+const users = [];
 
-// Listen for when a client connection instance is established, and fire a callback
-io.on('connection', (socket) => {
-  connections.push(socket);
-  console.log(`New Connection Established with id: ${socket.id}`);
-  console.log(`${connections.length} participants connected`)
+// Connect to MongoDB
+const mongo = require('mongodb').MongoClient;
+
+/*
+MongoDB Atlas Connection String:
+mongodb+srv://awsayed:7Umbrella%21@cluster0-t6vf6.mongodb.net/test?retryWrites=true&w=majority
+*/
+
+/* 
+CONNECTION_URI from Heroku add on mLab:
+mongodb://<dbuser>:<dbpassword>@ds351628.mlab.com:51628/heroku_97lqpljs
+
+No longer possible to create account on mlab.com, so I dont know what <dbuser> and <dbpassword> are
+*/
+
+const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/mongochat'
+
+mongo.connect(CONNECTION_URI, function (err, db) {
+  if (err) {
+    throw err;
+  } else { console.log('MongoDB connected...') }
+
+  // Listen for when a client connection is established, and use that socket instance in the callback
+  io.on('connection', socket => {
+    connections.push(socket);
+    console.log(`New Connection Established with id: ${socket.id}`);
+    console.log(`${connections.length} participants connected`)
+
+    // Define mongodb collection/document: 'chats'
+    let chats = db.collection('chats');
+
+    // Get chat objects from the chats document
+    chats.find().limit(100).sort({ _id: 1 }).toArray((err, res) => {
+      if (err) {
+        throw err;
+      } else {
+        // Emit the chat objects to connecting client
+        console.log(`Database response is: ${JSON.stringify(res, null, 3)}`)
+        socket.emit('output', res);
+      }
+    });
 
 
-  // Listen for client emissions: "new user", and "send message"
-  // Re-emit recieved data to all clients (including to sender client)
-  // io.sockets.emit('name of emission', {data sent to clients})
-  // io.emit('name of emission', {data sent to clients})
-  socket.on('new user', username => {
-    console.log(`${username} connected`);
-    users.push(username);
-    socket.username = username;
-    io.to(`${socket.id}`).emit('currentUser', username);
-    io.sockets.emit('newUser', username);
-    sendUsernames();
-  })
+    // Listen for client emissions: "new user", and "send message"
+    // Emit currentUser to the new user who connected
+    // Re-emit username to all clients (including to sender client)
+    // io.sockets.emit('emission name', {data sent to clients}) or io.emit('emission name', {data sent to clients})
+    // Emit user array to all clients
+    socket.on('new user', username => {
+      console.log(`${username} connected`);
+      socket.username = username;
+      users.push(username);
+      io.to(`${socket.id}`).emit('currentUser', username);
+      io.sockets.emit('newUser', username);
+      io.sockets.emit('sending users', users)
+    })
 
-  socket.on('send message', message => {
-    console.log(`NSA: ${socket.username} said "${message}"`);
-    io.emit('response message', { message: message, user: socket.username });
-  })
+    socket.on('send message', message => {
+      console.log(`NSA: ${socket.username} said "${message}"`);
+      io.emit('response message', { user: socket.username, message: message });
+      // Insert chat object into chats document to persist the messages
+      chats.insert({ user: socket.username, message: message });
+    })
 
-  // Emit users array to all clients
-  const sendUsernames = () => {
-    io.sockets.emit('sending users', users)
-  }
+    // Listen for client emission: "typing"
+    // Re-Broadcast recieved data to all clients BESIDES sender client
+    // socket.broadcast.emit('name of emission', {data sent to clients})
+    socket.on('typing', handle => {
+      socket.broadcast.emit('typing', handle)
+    })
 
-  // Listen for client emission called typing
-  // Re-Broadcast recieved data to all clients BESIDES sender client
-  // socket.broadcast.emit('name of emission', {data sent to clients})
-  socket.on('typing', data => {
-    socket.broadcast.emit('typing', data)
-  })
+    // listen for client disconnection
+    socket.on('disconnect', () => {
+      users.splice(users.indexOf(socket.username), 1);
+      connections.splice(connections.indexOf(socket), 1);
+      console.log(`disconnecting: ${socket.username}. Session id ${socket.id} cleared. ${connections.length} connections remaining. ${users.length} members left in chat`);
+      io.sockets.emit('sending users', users)
+    });
 
 
-  // listen for client disconnection
-  socket.on('disconnect', () => {
-    users.splice(users.indexOf(socket.username), 1);
-    connections.splice(connections.indexOf(socket), 1);
-    console.log(`disconnecting: ${socket.username}. Session id ${socket.id} cleared. ${connections.length} connections remaining. ${users.length} left in chat`);
-    sendUsernames();
+    // Listen for client emission: "clear"
+    socket.on('clear', () => {
+      // Remove all chat objects from document (for all clients)
+      chats.remove({}, () => {
+        console.log('Database cleared')
+      });
+    });
+
   });
-
-
-})
+});
