@@ -8,7 +8,7 @@
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
+### Prerequisites & Install Dependencies
 
 node, express, mongodb, socket.io, socket.io-client, nodemon
 
@@ -17,6 +17,15 @@ These are provided as dependencies in the package.json, and therefore can be ins
 ```
 npm install
 ```
+
+## Run Server
+```
+nodemon server.js
+```
+
+## Run App
+Open public/index.html
+
 
 <img src="https://i.ibb.co/NyZ4Wck/homescreen.png" alt="homescreen" border="0">
 
