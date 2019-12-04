@@ -1,16 +1,20 @@
 // Use express server to serve static html file in public folder
-const express = require('express');
-const app = express();
-app.use(express.static('public'));
-
+const app = require('express')();
+const http = require('http').Server(app);
 const PORT = process.env.PORT || 4001;
-const server = app.listen(process.env.PORT || PORT, () => {
-  console.log(`Starting Express Server on port ${PORT}`)
-});
+
+// var path = require('path');
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname + '/public/index.html'));
+// })
+app.use(require('express').static('public'));
+
+http.listen(PORT, () => {
+  console.log(`HTTP Express Server Started on PORT ${PORT}`)
+})
 
 // Setup socket to use the express server thats running on PORT
-const socket = require('socket.io');
-const io = socket(server);
+const io = require('socket.io')(http);
 
 const connections = [];
 const users = [];
