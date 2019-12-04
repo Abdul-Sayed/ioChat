@@ -1,6 +1,6 @@
 # ioChat
 
-### Websocket chat app using node, express, socket.io, and vanilla JS DOM manipulation
+### Websocket chat app using node, express, socket.io, vanilla JS DOM manipulation, and plain ole CSS
 
 **ioChat** is a real time chat app that persists messages and has a Skype inspired design. It was built to practice [Socket.io](https://socket.io/), a real-time event based bidirection communication library for Javascript. Chat messages left by app users are cached in a [MongoDB](https://www.mongodb.com/) server to allow a persisted history upon susequent sign in.
 
