@@ -18,21 +18,6 @@ const users = [];
 // Connect to MongoDB
 const mongo = require('mongodb').MongoClient;
 
-// old heroku MONGODB_URI
-// mongodb://heroku_97lqpljs:8drlq621ld8udsbpipvs4575ei@ds351628.mlab.com:51628/heroku_97lqpljs
-
-/*
-MongoDB Atlas Connection String:
-mongodb+srv://awsayed:7Umbrella%21@cluster0-t6vf6.mongodb.net/test?retryWrites=true&w=majority
-*/
-
-/* 
-CONNECTION_URI from Heroku add on mLab:
-mongodb://<dbuser>:<dbpassword>@ds351628.mlab.com:51628/heroku_97lqpljs
-
-No longer possible to create account on mlab.com, so I dont know what <dbuser> and <dbpassword> are
-*/
-
 const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/mongochat'
 
 mongo.connect(CONNECTION_URI, function (err, db) {
