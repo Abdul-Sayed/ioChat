@@ -17,6 +17,9 @@ These are provided as dependencies in the package.json, and therefore can be ins
 ```
 npm install
 ```
+```
+node server.js
+```
 
 #### Run Server
 ```
